@@ -1,0 +1,17 @@
+{
+  "name": "example-ws-gateway-sam",
+  "version": "1.0.0",
+  "description": "Example WebSocket API Gateway Application.",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "David Sandor",
+  "scripts": {
+    "deploy": "npm run fix-npm-timestamps && BUILD_S3_BUCKET=my-websocket-apigw-example NODE_ENV=dev npm run ws-package && npm run ws-deploy-package",
+    "ws-package": "sam package --template-file template.yaml --s3-bucket my-websocket-apigw-example --output-template-file packaged.yaml",
+    "ws-deploy-package": "sam deploy --template-file ./packaged.yaml --stack-name my-websocket-apigw-example --capabilities CAPABILITY_IAM",
+    "fix-npm-timestamps": "find ./node_modules -mtime +10950 -exec touch {} \\;"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.411.0"
+  }
+}
